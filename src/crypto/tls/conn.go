@@ -689,6 +689,7 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec bool) error {
 			return c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
 		}
 		if alert(data[1]) == alertCloseNotify {
+			c.closeNotifySent = true
 			return c.in.setErrorLocked(io.EOF)
 		}
 		if c.vers == VersionTLS13 {
